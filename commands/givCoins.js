@@ -12,10 +12,13 @@ module.exports = {
     async execute(interaction) {
         // Проверка, является ли пользователь администратором
         if (!interaction.member.permissions.has(PermissionsBitField.Flags.Administrator)) {
-            return interaction.reply({
-                content: 'Эта команда доступна только администраторам!',
-                ephemeral: true // Сообщение будет видно только пользователю
-            });
+            const embed = new EmbedBuilder()
+                .setColor('#FF0000') // Красный цвет для ошибки
+                .setAuthor({ 
+                    name: `Эта команда доступна только администраторам!`, 
+                    iconURL: 'https://media.discordapp.net/attachments/768105199151218690/837717853796565042/-2.png?ex=6701608c&is=67000f0c&hm=9698de4d28bf1627adbd5bdd109ac6f6d63a00859c5d7ecb8dcb2edb956ec5ca&=&format=webp&quality=lossless'
+                })       
+            return interaction.reply({ embeds: [embed], ephemeral: true }); // Используем Embed
         }
 
         // Получаем модель пользователя

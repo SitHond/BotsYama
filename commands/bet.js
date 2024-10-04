@@ -53,12 +53,14 @@ module.exports = {
             where: { id: userId, guildId },
             defaults: { balance: 1000 } // начальный баланс, если пользователя нет
         });
-
         if (user.balance < amount) {
-            return interaction.reply({
-                content: 'Недостаточно средств для ставки.',
-                ephemeral: true
-            });
+            const embed = new EmbedBuilder()
+                .setColor('#FF0000') // Красный цвет для ошибки
+                .setAuthor({ 
+                    name: `Недостаточно средств для ставки!`, 
+                    iconURL: 'https://media.discordapp.net/attachments/768105199151218690/837717853796565042/-2.png?ex=6701608c&is=67000f0c&hm=9698de4d28bf1627adbd5bdd109ac6f6d63a00859c5d7ecb8dcb2edb956ec5ca&=&format=webp&quality=lossless'
+                })       
+            return interaction.reply({ embeds: [embed], ephemeral: true });
         }
 
         // Снимаем деньги с баланса за ставку
