@@ -11,7 +11,6 @@ node index.js
 ```
 {
 	"token": "your-bot-token",
-  "clientId": "your-bot-clientId",
-	"guildId": "your-guildId"
+	"clientId": "your-bot-clientId",
 }
 ```
