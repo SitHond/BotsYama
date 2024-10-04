@@ -48,7 +48,7 @@ async function addExp(user, gainedExp, client) {
                 //console.log('Канал для уведомления:', channel); // Логируем канал
 
                 if (channel) {
-                    await channel.send(`Поздравляем @${user.username}, вы достигли уровня ${newLevel}!`);
+                    await channel.send(`Поздравляем <@${user.id}>, вы достигли уровня ${newLevel}!`);
                 } else {
                     console.log('Канал не найден или бот не имеет к нему доступа.');
                 }
