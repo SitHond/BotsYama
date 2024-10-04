@@ -6,44 +6,44 @@ module.exports = {
         const User = newState.client.sequelize.models.User;
         const Settings = newState.client.sequelize.models.Settings;
 
-        const userId = newState.id;
+        const userId = newState.member.id;
         const guildId = newState.guild.id;
 
-        // Get AFK channel ID
-        const settings = await Settings.findOne({ where: { guildId } });
-        const afkChannelId = settings ? settings.afkChannelId : null;
+        try {
+            // Get AFK channel ID from settings
+            const settings = await Settings.findOne({ where: { guildId } });
+            const afkChannelId = settings ? settings.afkChannelId : null;
 
-        // If user joins a voice channel and it is not the AFK channel
-        if (!oldState.channelId && newState.channelId && newState.channelId !== afkChannelId) {
-            newState.client.voiceTimes = newState.client.voiceTimes || {};
-            newState.client.voiceTimes[userId] = moment();
-        }
+            // Если пользователь подключился к голосовому каналу и это не AFK канал
+            if (!oldState.channelId && newState.channelId && newState.channelId !== afkChannelId) {
+                newState.client.voiceTimes = newState.client.voiceTimes || {};
+                newState.client.voiceTimes[userId] = moment(); // Сохраняем время входа в голосовой канал
+            }
 
-        // If user leaves a voice channel and it is not the AFK channel
-        if (oldState.channelId && !newState.channelId && oldState.channelId !== afkChannelId) {
-            const enterTime = newState.client.voiceTimes && newState.client.voiceTimes[userId];
-            if (enterTime) {
-                const exitTime = moment();
-                const duration = moment.duration(exitTime.diff(enterTime)).asMinutes(); // Time in minutes
+            // Если пользователь вышел из голосового канала и это не AFK канал
+            if (oldState.channelId && !newState.channelId && oldState.channelId !== afkChannelId) {
+                const enterTime = newState.client.voiceTimes && newState.client.voiceTimes[userId];
+                if (enterTime) {
+                    const exitTime = moment();
+                    const duration = moment.duration(exitTime.diff(enterTime)).asMinutes(); // Длительность в минутах
 
-                delete newState.client.voiceTimes[userId];
+                    delete newState.client.voiceTimes[userId]; // Удаляем запись после расчета
 
-                // Update user activity in the database
-                try {
+                    // Обновляем активность пользователя в базе данных
                     const [user] = await User.findOrCreate({
                         where: { id: userId, guildId: guildId },
                         defaults: { activity: 0 },
                     });
 
-                    // Add activity duration
+                    // Добавляем активность пользователя
                     user.activity += duration;
                     await user.save();
 
-                    console.log(`User ${userId} was active for ${duration} minutes in voice channel.`);
-                } catch (error) {
-                    console.error('Error updating activity:', error);
+                    console.log(`Пользователь ${userId} был активен в голосовом канале ${duration} минут.`);
                 }
             }
+        } catch (error) {
+            console.error('Ошибка при обновлении активности:', error);
         }
     },
 };

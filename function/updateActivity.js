@@ -1,5 +1,5 @@
-async function updateActivity(userId, guildId, hours) {
-    const User = interaction.client.sequelize.models.User;
+async function updateActivity(client, userId, guildId, hours) {
+    const User = client.sequelize.models.User; // Доступ к модели через client
 
     // Найти или создать пользователя
     const [user] = await User.findOrCreate({
