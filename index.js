@@ -26,18 +26,24 @@ const sequelize = new Sequelize('database', 'user', 'password', {
 // Загрузка моделей
 const User = require('./models/User')(sequelize);
 const Settings = require('./models/Settings')(sequelize);
+const RoleShop = require('./models/RoleShop')(sequelize);
+
+// Добавление всех моделей в client.sequelize.models
+client.sequelize = sequelize;
+client.sequelize.models = {
+    User,
+    Settings,
+    RoleShop
+};
 
 // Синхронизация базы данных
-sequelize.sync({ alter: true })
+sequelize.sync()
     .then(() => {
         console.log('Database & tables created/updated!');
     })
     .catch(error => {
         console.error('Unable to synchronize the database:', error);
     });
-
-// Добавление Sequelize в клиент для работы с базой данных в любом месте
-client.sequelize = sequelize;
 
 // Инициализация коллекции команд
 client.commands = new Collection();
@@ -91,13 +97,16 @@ client.on('guildCreate', async (guild) => {
     
     try {
         const members = await guild.members.fetch();
-        for (const [_, member] of members) {
-            const [user] = await User.findOrCreate({
+        const userPromises = [];
+        members.forEach(member => {
+            userPromises.push(User.findOrCreate({
                 where: { id: member.id, guildId: guild.id },
                 defaults: { username: member.user.username }
-            });
-            console.log(`Initialized user ${member.user.username} in server ${guild.name}`);
-        }
+            }));
+        });
+        
+        await Promise.all(userPromises);
+        console.log(`Initialized users in server ${guild.name}`);
     } catch (error) {
         console.error('Error initializing users:', error);
     }
