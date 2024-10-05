@@ -91,21 +91,31 @@ for (const file of eventFiles) {
     }
 }
 
+// Функция для добавления участника в базу данных, если он отсутствует
+async function addMemberToDatabase(member, client) {
+    const User = client.sequelize.models.User;
+    try {
+        const [user, created] = await User.findOrCreate({
+            where: { id: member.id, guildId: member.guild.id },
+            defaults: { username: member.user.username },
+        });
+        if (created) {
+            console.log(`Добавлен новый пользователь ${member.user.username} на сервере ${member.guild.name}`);
+        }
+    } catch (error) {
+        console.error(`Ошибка при добавлении пользователя ${member.user.username}:`, error);
+    }
+}
+
 // Обработка событий на разных серверах
 client.on('guildCreate', async (guild) => {
     console.log(`Bot has joined a new server: ${guild.name} (id: ${guild.id})`);
     
     try {
         const members = await guild.members.fetch();
-        const userPromises = [];
-        members.forEach(member => {
-            userPromises.push(User.findOrCreate({
-                where: { id: member.id, guildId: guild.id },
-                defaults: { username: member.user.username }
-            }));
-        });
-        
-        await Promise.all(userPromises);
+        for (const member of members.values()) {
+            await addMemberToDatabase(member, client);
+        }
         console.log(`Initialized users in server ${guild.name}`);
     } catch (error) {
         console.error('Error initializing users:', error);
@@ -113,7 +123,7 @@ client.on('guildCreate', async (guild) => {
 });
 
 // Логируем все гильдии, к которым подключен бот
-client.on('ready', () => {
+client.on('ready', async () => {
     console.log(`Logged in as ${client.user.tag}`);
     client.guilds.cache.forEach(guild => {
         console.log(`Connected to server: ${guild.name} (id: ${guild.id})`);
@@ -121,6 +131,20 @@ client.on('ready', () => {
 
     // Устанавливаем статус бота
     client.user.setActivity('/help', { type: ActivityType.Watching });
+
+    // Сканирование участников на каждом сервере
+    for (const guild of client.guilds.cache.values()) {
+        try {
+            const members = await guild.members.fetch();
+            for (const member of members.values()) {
+                // Добавление участников в базу данных, если их там нет
+                await addMemberToDatabase(member, client);
+            }
+            console.log(`Сканирование участников сервера ${guild.name} завершено.`);
+        } catch (error) {
+            console.error(`Ошибка при сканировании участников на сервере ${guild.name}:`, error);
+        }
+    }
 });
 
 // Запуск клиента
