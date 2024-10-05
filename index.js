@@ -1,7 +1,7 @@
 const path = require('node:path');
 const fs = require('node:fs');
 const Sequelize = require('sequelize');
-const { Client, Collection, GatewayIntentBits } = require('discord.js');
+const { Client, Collection, GatewayIntentBits, ActivityType } = require('discord.js');
 const { token } = require('./config.json');
 
 // Создание клиента Discord с поддержкой нескольких серверов
@@ -118,6 +118,9 @@ client.on('ready', () => {
     client.guilds.cache.forEach(guild => {
         console.log(`Connected to server: ${guild.name} (id: ${guild.id})`);
     });
+
+    // Устанавливаем статус бота
+    client.user.setActivity('/help', { type: ActivityType.Watching });
 });
 
 // Запуск клиента
