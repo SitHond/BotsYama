@@ -25,7 +25,7 @@ module.exports = {
                 const enterTime = newState.client.voiceTimes && newState.client.voiceTimes[userId];
                 if (enterTime) {
                     const exitTime = moment();
-                    const duration = moment.duration(exitTime.diff(enterTime)).asMinutes(); // Длительность в минутах
+                    const duration = Math.round(moment.duration(exitTime.diff(enterTime)).asMinutes()); // Длительность в минутах (округляем до ближайшего целого числа)
 
                     delete newState.client.voiceTimes[userId]; // Удаляем запись после расчета
 

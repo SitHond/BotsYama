@@ -35,16 +35,16 @@ client.sequelize.models = {
     Settings,
     RoleShop
 };
-sequelize.getQueryInterface().dropTable('Settings')
-    .then(() => {
-        return sequelize.models.Settings.sync();
-    })
-    .then(() => {
-        console.log('Таблица Settings была пересоздана.');
-    })
-    .catch(error => {
-        console.error('Ошибка при пересоздании таблицы:', error);
-    });
+// sequelize.getQueryInterface().dropTable('Settings')
+//     .then(() => {
+//         return sequelize.models.Settings.sync();
+//     })
+//     .then(() => {
+//         console.log('Таблица Settings была пересоздана.');
+//     })
+//     .catch(error => {
+//         console.error('Ошибка при пересоздании таблицы:', error);
+//     });
 
 
 // Синхронизация базы данных

@@ -30,13 +30,14 @@ module.exports = {
                 .setTitle('Топ пользователей по активности в войс-чатах')
                 .setTimestamp();
 
-            users.forEach((user, index) => {
+            for (const [index, user] of users.entries()) {
+                const member = await guild.members.fetch(user.id); // Получаем информацию о пользователе из сервера
                 embed.addFields({
-                    name: `#${index + 1} - ${user.username}`,
-                    value: `Активность: ${user.activity.toFixed(2)} часов`,
+                    name: `#${index + 1}`,
+                    value: `<@${member.id}>\nАктивность: ${(user.activity / 60).toFixed(2)} часов`,
                     inline: false
                 });
-            });
+            }
 
             await interaction.reply({ embeds: [embed] });
         } catch (error) {
