@@ -12,10 +12,7 @@ module.exports = {
         try {
             // Получаем всех пользователей с текущего сервера из базы данных, отсортированных по активности
             const users = await User.findAll({
-                where: {
-                    guildId: guild.id,
-                    activity: { [Op.gt]: 0 } // Используем импортированный Op
-                },
+                where: { guildId: guild.id, activity: { [Op.gt]: 0 } },
                 order: [['activity', 'DESC']],
                 limit: 10, // Показываем топ-10 пользователей
             });
@@ -24,19 +21,21 @@ module.exports = {
                 return interaction.reply('Никто ещё не был активен в войс-чатах на этом сервере.');
             }
 
-            // Формируем embed-сообщение с топом по активности
+            // Формируем описание с топом по активности
+            let description = '';
+            users.forEach((user, index) => {
+                const hours = Math.floor(user.activity / 60);
+                const minutes = Math.round(user.activity % 60);
+                const emoji = index === 0 ? '🥇' : index === 1 ? '🥈' : index === 2 ? '🥉' : '🔸';
+                description += `${emoji} <@${user.id}> - ${hours}ч ${minutes}мин\n`;
+            });
+
+            // Создаем embed-сообщение
             const embed = new EmbedBuilder()
                 .setColor('#00FF00')
                 .setTitle('Топ пользователей по активности в войс-чатах')
+                .setDescription(description)
                 .setTimestamp();
-
-            users.forEach((user, index) => {
-                embed.addFields({
-                    name: `#${index + 1} - ${user.username}`,
-                    value: `Активность: ${user.activity.toFixed(2)} часов`,
-                    inline: false
-                });
-            });
 
             await interaction.reply({ embeds: [embed] });
         } catch (error) {
