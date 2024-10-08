@@ -27,7 +27,7 @@ module.exports = {
 
         // Создание Embed-сообщения
         const embed = new EmbedBuilder()
-            .setColor('#0099ff') // Цвет вашего Embed
+            .setColor('#36393e')
             .setTitle(`${interaction.user.username}, ваш баланс`)
             .setDescription(`Ваш баланс составляет: **${user.balance} монет**.`)
             .setThumbnail(interaction.user.displayAvatarURL()) // Изображение (например, аватар пользователя)

@@ -50,7 +50,7 @@ module.exports = {
 
 		// Создаем embed сообщение
 		const embed = {
-			color: 0x00FF00, // Зеленый цвет
+			color: 3553598,
 			title: `Работа выполнена!`,
 			description: `${interaction.user.username} заработал ${earnedMoney} монет!`,
 			fields: [

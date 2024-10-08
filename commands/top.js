@@ -12,10 +12,7 @@ module.exports = {
         try {
             // Получаем всех пользователей с текущего сервера из базы данных, отсортированных по активности
             const users = await User.findAll({
-                where: {
-                    guildId: guild.id,
-                    activity: { [Op.gt]: 0 } // Используем импортированный Op
-                },
+                where: { guildId: guild.id, activity: { [Op.gt]: 0 } },
                 order: [['activity', 'DESC']],
                 limit: 10, // Показываем топ-10 пользователей
             });
@@ -24,20 +21,21 @@ module.exports = {
                 return interaction.reply('Никто ещё не был активен в войс-чатах на этом сервере.');
             }
 
-            // Формируем embed-сообщение с топом по активности
-            const embed = new EmbedBuilder()
-                .setColor('#00FF00')
-                .setTitle('Топ пользователей по активности в войс-чатах')
-                .setTimestamp();
+            // Формируем описание с топом по активности
+            let description = '';
+            users.forEach((user, index) => {
+                const hours = Math.floor(user.activity / 60);
+                const minutes = Math.round(user.activity % 60);
+                const emoji = index === 0 ? '🥇' : index === 1 ? '🥈' : index === 2 ? '🥉' : '🔸';
+                description += `${emoji} <@${user.id}> - ${hours}ч ${minutes}мин\n`;
+            });
 
-            for (const [index, user] of users.entries()) {
-                const member = await guild.members.fetch(user.id); // Получаем информацию о пользователе из сервера
-                embed.addFields({
-                    name: `#${index + 1}`,
-                    value: `<@${member.id}>\nАктивность: ${(user.activity / 60).toFixed(2)} часов`,
-                    inline: false
-                });
-            }
+            // Создаем embed-сообщение
+            const embed = new EmbedBuilder()
+                .setColor('#36393e')
+                .setTitle('Топ пользователей по активности в войс-чатах')
+                .setDescription(description)
+                .setTimestamp();
 
             await interaction.reply({ embeds: [embed] });
         } catch (error) {
