@@ -32,7 +32,7 @@ module.exports = {
 
             // Создаем embed-сообщение
             const embed = new EmbedBuilder()
-                .setColor('#00FF00')
+                .setColor('#36393e')
                 .setTitle('Топ пользователей по активности в войс-чатах')
                 .setDescription(description)
                 .setTimestamp();
