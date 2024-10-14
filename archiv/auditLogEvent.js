@@ -6,26 +6,30 @@ module.exports = {
         const { guild, client } = member;
         const Settings = client.sequelize.models.Settings;
 
-        // Получаем настройки для текущего сервера
-        const settings = await Settings.findOne({ where: { guildId: guild.id } });
-        if (!settings) return;
+        try {
+            // Получаем настройки для текущего сервера
+            const settings = await Settings.findOne({ where: { guildId: guild.id } });
+            if (!settings) return;
 
-        // Приветствие нового участника
-        if (settings.welcomeChannelId) {
-            const welcomeChannel = guild.channels.cache.get(settings.welcomeChannelId);
-            if (welcomeChannel) {
-                const welcomeMessage = settings.welcomeMessage || `Добро пожаловать на сервер, ${member}! Мы рады видеть вас здесь!`;
-                const embed = new EmbedBuilder()
-                    .setColor('#00FF00')
-                    .setAuthor({
-                        name: `Добро пожаловать, ${member.user.username}!`,
-                        iconURL: member.user.displayAvatarURL(),
-                    })
-                    .setDescription(welcomeMessage)
-                    .setTimestamp();
+            // Приветствие нового участника
+            if (settings.welcomeChannelId) {
+                const welcomeChannel = guild.channels.cache.get(settings.welcomeChannelId);
+                if (welcomeChannel) {
+                    const welcomeMessage = settings.welcomeMessage || `Добро пожаловать на сервер, ${member}! Мы рады видеть вас здесь!`;
+                    const embed = new EmbedBuilder()
+                        .setColor('#00FF00')
+                        .setAuthor({
+                            name: `Добро пожаловать, ${member.user.username}!`,
+                            iconURL: member.user.displayAvatarURL(),
+                        })
+                        .setDescription(welcomeMessage)
+                        .setTimestamp();
 
-                welcomeChannel.send({ embeds: [embed] });
+                    await welcomeChannel.send({ embeds: [embed] });
+                }
             }
+        } catch (error) {
+            console.error('Ошибка при обработке нового участника:', error);
         }
     },
 };
@@ -54,9 +58,9 @@ module.exports.leave = {
                 .setDescription(`Нам жаль, что вы уходите, ${member.user.username}. Надеемся, вы вернетесь!`)
                 .setTimestamp();
 
-            auditChannel.send({ embeds: [embed] });
+            await auditChannel.send({ embeds: [embed] });
         } catch (error) {
-            console.error('Ошибка при отправке сообщения в журнал аудита:', error);
+            console.error('Ошибка при отправке сообщения о выходе участника в журнал аудита:', error);
         }
     },
 };
@@ -89,9 +93,9 @@ module.exports.messageDelete = {
 **Содержание:** ${message.content}`)
                 .setTimestamp();
 
-            auditChannel.send({ embeds: [embed] });
+            await auditChannel.send({ embeds: [embed] });
         } catch (error) {
-            console.error('Ошибка при отправке сообщения в журнал аудита:', error);
+            console.error('Ошибка при отправке сообщения об удалении в журнал аудита:', error);
         }
     },
 };
@@ -121,7 +125,7 @@ module.exports.voiceStateUpdate = {
                     .setDescription(`**Канал:** <#${newState.channelId}>`)
                     .setTimestamp();
 
-                auditChannel.send({ embeds: [embed] });
+                await auditChannel.send({ embeds: [embed] });
             }
 
             // Проверяем, если пользователь покинул голосовой канал
@@ -135,10 +139,10 @@ module.exports.voiceStateUpdate = {
                     .setDescription(`**Канал:** <#${oldState.channelId}>`)
                     .setTimestamp();
 
-                auditChannel.send({ embeds: [embed] });
+                await auditChannel.send({ embeds: [embed] });
             }
         } catch (error) {
-            console.error('Ошибка при отправке сообщения в журнал аудита:', error);
+            console.error('Ошибка при отправке сообщения в журнал аудита для обновления состояния голосового канала:', error);
         }
     },
 };
