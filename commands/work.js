@@ -32,12 +32,15 @@ module.exports = {
 			const minutes = timeLeft.getUTCMinutes();
 			const seconds = timeLeft.getUTCSeconds();
 
-			// Сообщаем пользователю, сколько времени осталось до следующей работы
-			await interaction.reply({
-				content: `Вы уже работали сегодня! Пожалуйста, подождите ${hours} ч. ${minutes} мин. ${seconds} сек. до следующей работы.`,
-				ephemeral: true, // Сообщение видно только пользователю
-			});
-			return;
+        // Отправляем ответ с новым статусом
+        const embed = new EmbedBuilder()
+            .setColor('#00FF00') // Зеленый цвет для успешного сообщения
+            .setAuthor({ 
+                name: `Вы уже работали сегодня! Пожалуйста, подождите ${hours} ч. ${minutes} мин. ${seconds} сек. до следующей работы.`,
+                iconURL: 'https://media.discordapp.net/attachments/768105199151218690/838851952627548210/-3.png?ex=66fcef02&is=66fb9d82&hm=9ab482f7494d25371e6aa5c1e1ecc3a7104ad104a6c3fb7df61149e3e77f594b&=&format=webp&quality=lossless&width=591&height=591'
+            })
+
+         await interaction.reply({ embeds: [embed], ephemeral: true });
 		}
 
 		// Генерируем случайное количество денег от 10 до 100

@@ -60,6 +60,15 @@ module.exports = {
                 ))
         .addSubcommand(subcommand =>
             subcommand
+                .setName('setauditlog')
+                .setDescription('Set the audit log channel for server events.')
+                .addChannelOption(option =>
+                    option.setName('channel')
+                        .setDescription('The channel to send audit logs to')
+                        .setRequired(true)
+                ))
+        .addSubcommand(subcommand =>
+            subcommand
                 .setName('view')
                 .setDescription('View the current server settings.')
         ),
@@ -71,7 +80,7 @@ module.exports = {
             const embed = new EmbedBuilder()
                 .setColor('#FF0000') // Красный цвет для ошибки
                 .setAuthor({
-                    name: `Эта команда доступна только администраторам!`,
+                    name: 'Эта команда доступна только администраторам!',
                     iconURL: 'https://media.discordapp.net/attachments/768105199151218690/837717853796565042/-2.png?ex=6701608c&is=67000f0c&hm=9698de4d28bf1627adbd5bdd109ac6f6d63a00859c5d7ecb8dcb2edb956ec5ca&=&format=webp&quality=lossless'
             })       
             return interaction.reply({ embeds: [embed], ephemeral: true }); // Используем Embed
@@ -113,6 +122,10 @@ module.exports = {
             settings.farewellMessage = message; // Устанавливаем сообщение для прощаний
             await settings.save();
             await interaction.reply(`Custom farewell message set to: ${message}`);
+        } else if (subcommand === 'setauditlog') {
+            settings.auditLogChannelId = channel.id; // Устанавливаем канал для журнала аудита
+            await settings.save();
+            await interaction.reply(`Audit log channel set to ${channel}.`);
         } else if (subcommand === 'view') {
             // Формируем ответ с текущими настройками
             const afkChannel = settings.afkChannelId ? `<#${settings.afkChannelId}>` : 'Not set';
@@ -121,6 +134,7 @@ module.exports = {
             const farewellChannel = settings.farewellChannelId ? `<#${settings.farewellChannelId}>` : 'Not set';
             const welcomeMessage = settings.welcomeMessage ? settings.welcomeMessage : 'Default welcome message';
             const farewellMessage = settings.farewellMessage ? settings.farewellMessage : 'Default farewell message';
+            const auditLogChannel = settings.auditLogChannelId ? `<#${settings.auditLogChannelId}>` : 'Not set';
 
             const embed = new EmbedBuilder()
                 .setColor('#00FF00')
@@ -130,6 +144,7 @@ module.exports = {
                     { name: 'Level-up Notification Channel', value: levelUpChannel, inline: true },
                     { name: 'Welcome Channel', value: welcomeChannel, inline: true },
                     { name: 'Farewell Channel', value: farewellChannel, inline: true },
+                    { name: 'Audit Log Channel', value: auditLogChannel, inline: true },
                     { name: 'Welcome Message', value: welcomeMessage, inline: false },
                     { name: 'Farewell Message', value: farewellMessage, inline: false }
                 )
