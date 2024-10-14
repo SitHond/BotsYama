@@ -3,7 +3,7 @@ const { SlashCommandBuilder, EmbedBuilder } = require('discord.js');
 module.exports = {
     data: new SlashCommandBuilder()
         .setName('bank')
-        .setDescription('Check your balance.'),
+        .setDescription('Узнать баланс пользователя.'),
     async execute(interaction) {
         // Получение модели пользователя из базы данных
         const User = interaction.client.sequelize.models.User;

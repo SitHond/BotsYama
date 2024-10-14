@@ -3,10 +3,10 @@ const { SlashCommandBuilder } = require('discord.js');
 module.exports = {
     data: new SlashCommandBuilder()
         .setName('p')
-        .setDescription('Check your profile.')
+        .setDescription('Отобразить профиль пользователя')
         .addUserOption(option => 
             option.setName('user')
-                .setDescription('The user whose profile you want to check')
+                .setDescription('Профиль пользователя')
                 .setRequired(false)
         ),
     async execute(interaction) {

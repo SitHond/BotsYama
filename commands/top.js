@@ -26,7 +26,7 @@ module.exports = {
             users.forEach((user, index) => {
                 const hours = Math.floor(user.activity / 60);
                 const minutes = Math.round(user.activity % 60);
-                const emoji = index === 0 ? '🥇' : index === 1 ? '🥈' : index === 2 ? '🥉' : '🔸';
+                const emoji = index === 0 ? '🔸' : index === 1 ? '🥈' : index === 2 ? '🔸' : '🔸'; // Потом переписать!!! Макс, обязательно перепиши
                 description += `${emoji} <@${user.id}> - ${hours}ч ${minutes}мин\n`;
             });
 

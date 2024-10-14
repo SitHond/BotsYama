@@ -4,15 +4,15 @@ const { addExp } = require('../function/leveling'); // Импортируем ф
 module.exports = {
     data: new SlashCommandBuilder()
         .setName('add-exp')
-        .setDescription('Gain some experience.')
+        .setDescription('Добавить пользователю опыт')
         .addUserOption(option =>
             option.setName('user')
-                .setDescription('The user to gain experience')
+                .setDescription('Пользователь который получит опыт')
                 .setRequired(true) // Опция обязательная
         )
         .addIntegerOption(option =>
             option.setName('amount')
-                .setDescription('Amount of experience to gain')
+                .setDescription('Сколько получит')
                 .setRequired(true) // Опция обязательная
         ),
     async execute(interaction) {
