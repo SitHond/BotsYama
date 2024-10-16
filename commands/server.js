@@ -3,7 +3,7 @@ const { SlashCommandBuilder, EmbedBuilder, PermissionsBitField } = require('disc
 module.exports = {
     data: new SlashCommandBuilder()
         .setName('server')
-        .setDescription('Provides information about the server.'),
+        .setDescription('Информаци о сервере'),
     async execute(interaction) {
         const guild = interaction.guild; // Получаем объект сервера
 

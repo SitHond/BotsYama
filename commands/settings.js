@@ -3,74 +3,74 @@ const { SlashCommandBuilder, PermissionsBitField, EmbedBuilder } = require('disc
 module.exports = {
     data: new SlashCommandBuilder()
         .setName('settings')
-        .setDescription('Configure or view bot settings.')
+        .setDescription('Настройте или просмотрите настройки бота')
         .addSubcommand(subcommand =>
             subcommand
                 .setName('setafk')
-                .setDescription('Set the AFK channel for the server.')
+                .setDescription('Установите канал AFK для сервера')
                 .addChannelOption(option =>
                     option.setName('channel')
-                        .setDescription('The channel to set as AFK')
+                        .setDescription('Канал, который нужно установить как AFK')
                         .setRequired(true)
                 ))
         .addSubcommand(subcommand =>
             subcommand
                 .setName('setlevelup')
-                .setDescription('Set the notification channel for level-up events.')
+                .setDescription('Установите канал оповещения о событиях, повышающих уровень')
                 .addChannelOption(option =>
                     option.setName('channel')
-                        .setDescription('The channel to send level-up notifications to')
+                        .setDescription('Канал для отправки уведомлений о повышении уровня')
                         .setRequired(true)
                 ))
         .addSubcommand(subcommand =>
             subcommand
                 .setName('setwelcome')
-                .setDescription('Set the welcome channel for new members.')
+                .setDescription('Установите канал приветствия для новых участников')
                 .addChannelOption(option =>
                     option.setName('channel')
-                        .setDescription('The channel to send welcome messages to')
+                        .setDescription('Канал для отправки приветственных сообщений')
                         .setRequired(true)
                 ))
         .addSubcommand(subcommand =>
             subcommand
                 .setName('setfarewell')
-                .setDescription('Set the farewell channel for members leaving.')
+                .setDescription('Установите канал прощания для уходящих участников')
                 .addChannelOption(option =>
                     option.setName('channel')
-                        .setDescription('The channel to send farewell messages to')
+                        .setDescription('Канал для отправки прощальных сообщений')
                         .setRequired(true)
                 ))
         .addSubcommand(subcommand =>
             subcommand
                 .setName('setwelcomemsg')
-                .setDescription('Set the custom welcome message for new members.')
+                .setDescription('Установите пользовательское приветственное сообщение для новых участников')
                 .addStringOption(option =>
                     option.setName('message')
-                        .setDescription('The custom welcome message')
+                        .setDescription('Пользовательское приветственное сообщение')
                         .setRequired(true)
                 ))
         .addSubcommand(subcommand =>
             subcommand
                 .setName('setfarewellmsg')
-                .setDescription('Set the custom farewell message for members leaving.')
+                .setDescription('Установите пользовательское прощальное сообщение для уходящих участников')
                 .addStringOption(option =>
                     option.setName('message')
-                        .setDescription('The custom farewell message')
+                        .setDescription('Пользовательское прощальное послание')
                         .setRequired(true)
                 ))
         .addSubcommand(subcommand =>
             subcommand
                 .setName('setauditlog')
-                .setDescription('Set the audit log channel for server events.')
+                .setDescription('Установите канал журнала аудита для событий сервера (В разработке)')
                 .addChannelOption(option =>
                     option.setName('channel')
-                        .setDescription('The channel to send audit logs to')
+                        .setDescription('Канал, по которому будут отправляться журналы аудита')
                         .setRequired(true)
                 ))
         .addSubcommand(subcommand =>
             subcommand
                 .setName('view')
-                .setDescription('View the current server settings.')
+                .setDescription('Просмотрите текущие настройки сервера')
         ),
     async execute(interaction) {
         const { options, member, client, guild } = interaction;

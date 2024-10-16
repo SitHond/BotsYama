@@ -3,7 +3,7 @@ const { SlashCommandBuilder } = require('discord.js');
 module.exports = {
     data: new SlashCommandBuilder()
         .setName('help')
-        .setDescription('Displays a list of all available commands.'),
+        .setDescription('Отобразить команды бота с описанием'),
     async execute(interaction) {
         // Получение всех команд, зарегистрированных в клиенте
         const commands = interaction.client.commands;

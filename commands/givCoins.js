@@ -3,15 +3,15 @@ const { SlashCommandBuilder, PermissionsBitField, EmbedBuilder } = require('disc
 module.exports = {
     data: new SlashCommandBuilder()
         .setName('add-coins')
-        .setDescription('Gain some Coins.')
+        .setDescription('Добавить пользователю монеты')
         .addUserOption(option =>
             option.setName('user')
-                .setDescription('The user to add coins to')
+                .setDescription('Пользователь который получит монеты')
                 .setRequired(true)
         )
         .addIntegerOption(option =>
             option.setName('amount')
-                .setDescription('Amount of coins to gain')
+                .setDescription('Сколько получит')
                 .setRequired(true)
         ),
     async execute(interaction) {
