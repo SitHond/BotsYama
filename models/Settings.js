@@ -5,21 +5,26 @@ module.exports = (sequelize) => {
     return sequelize.define('Settings', {
         guildId: {
             type: DataTypes.STRING,
+            allowNull: false,
             primaryKey: true,
+        },
+        petChannelId: { // Поле для хранения канала для питомцев
+            type: DataTypes.STRING,
+            allowNull: true,
         },
         afkChannelId: {
             type: DataTypes.STRING,
             allowNull: true,
         },
-        notificationChannelId: { // Новое поле для канала оповещений о повышении уровня
+        notificationChannelId: {
             type: DataTypes.STRING,
             allowNull: true,
         },
-        welcomeChannelId: { // Новое поле для канала приветствий
+        welcomeChannelId: {
             type: DataTypes.STRING,
             allowNull: true,
         },
-        farewellChannelId: { // Новое поле для канала прощаний
+        farewellChannelId: {
             type: DataTypes.STRING,
             allowNull: true,
         },

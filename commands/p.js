@@ -11,6 +11,7 @@ module.exports = {
         ),
     async execute(interaction) {
         const User = interaction.client.sequelize.models.User;
+        const Pet = interaction.client.sequelize.models.Pet;
         const targetUser = interaction.options.getUser('user') || interaction.user;
 
         try {
@@ -31,6 +32,24 @@ module.exports = {
                     activity: 0, // Инициализация активности
                 }
             });
+
+            // Ищем питомца пользователя
+            const pet = await Pet.findOne({
+                where: { userId: targetUser.id, guildId: interaction.guild.id }
+            });
+
+            let petInfo = 'Питомец отсутствует';
+            if (pet) {
+                // Выбираем смайлик в зависимости от показателей питомца
+                let petEmoji = '😐'; // Нейтральный смайлик по умолчанию
+                if (pet.happiness >= 70 && pet.energy >= 70 && pet.hunger <= 30) {
+                    petEmoji = '😃'; // Счастливый
+                } else if (pet.happiness <= 30 || pet.energy <= 30 || pet.hunger >= 70) {
+                    petEmoji = '😡'; // Сердитый
+                }
+
+                petInfo = `${pet.name} ${petEmoji}`;
+            }
 
             // Ваша логика для создания embed
             const rMember = interaction.guild.members.cache.get(targetUser.id);
@@ -75,6 +94,11 @@ module.exports = {
                     {
                         name: 'Активность',
                         value: `\`\`\`${(user.activity / 60).toFixed(2)} ч.\`\`\``,
+                        inline: true
+                    },
+                    {
+                        name: 'Питомец',
+                        value: `\`\`\`${petInfo}\`\`\``,
                         inline: true
                     }
                 ]

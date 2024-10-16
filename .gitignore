@@ -1,3 +1,2 @@
 node_modules
 config.json
-migrations/20241005133211-modify-settings-table.js
