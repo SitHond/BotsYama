@@ -9,7 +9,7 @@ module.exports = {
     async execute(interaction) {
         const { Pet, User } = interaction.client.sequelize.models;
         const userId = interaction.user.id;
-        const guildId = interaction.guild.id; // Получаем ID гильди
+        const guildId = interaction.guild.id; // Получаем ID гильдии
         const petName = `Питомец-${uuidv4().slice(0, 6)}`; // Рандомное имя для питомца
         const petType = 'Тамагочи'; // Тип питомца
 
