@@ -52,14 +52,15 @@ sequelize.sync()
     .catch(error => {
         console.error('Unable to synchronize the database:', error);
     });
-// Обновдение всех таблиц без перезаписи данных
-    sequelize.sync({ alter: true })
-    .then(() => {
-        console.log('Database & tables created/updated with altered structure!');
-    })
-    .catch(error => {
-        console.error('Unable to synchronize the database:', error);
-    });
+    
+    // Обновдение всех таблиц без перезаписи данных
+//     sequelize.sync({ alter: true })
+//     .then(() => {
+//         console.log('Database & tables created/updated with altered structure!');
+//     })
+//     .catch(error => {
+//         console.error('Unable to synchronize the database:', error);
+//     });
 
 // Инициализация коллекции команд
 client.commands = new Collection();
