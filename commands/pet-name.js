@@ -9,6 +9,7 @@ module.exports = {
         .setDescription('Новое имя для вашего питомца.')
         .setRequired(true)
     ),
+category: 'entertainment',
   async execute(interaction) {
     const newName = interaction.options.getString('name');
     const userId = interaction.user.id;

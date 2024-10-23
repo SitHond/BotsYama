@@ -8,6 +8,7 @@ module.exports = {
             option.setName('channel')
                 .setDescription('Канал для сообщений')
                 .setRequired(true)),
+    category: 'system',
     async execute(interaction) {
         const { Settings } = interaction.client.sequelize.models;
         const channel = interaction.options.getChannel('channel');

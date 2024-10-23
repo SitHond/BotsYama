@@ -4,6 +4,7 @@ module.exports = {
     data: new SlashCommandBuilder()
         .setName('pet-play')
         .setDescription('Поиграть со своим питомцем.'),
+    category: 'entertainment',
     async execute(interaction) {
         const userId = interaction.user.id;
         const guildId = interaction.guild.id;

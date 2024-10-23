@@ -14,6 +14,7 @@ module.exports = {
                 .setDescription('Сколько получит')
                 .setRequired(true)
         ),
+    category: 'admin',
     async execute(interaction) {
         // Проверка, является ли пользователь администратором
         if (!interaction.member.permissions.has(PermissionsBitField.Flags.Administrator)) {

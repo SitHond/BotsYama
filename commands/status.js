@@ -9,6 +9,7 @@ module.exports = {
                 .setDescription('Новый статус.')
                 .setRequired(true)
         ),
+    category: 'user',
     async execute(interaction) {
         // Получаем строку и приводим ее к нижнему регистру
         const newStatus = interaction.options.getString('command').toLowerCase();

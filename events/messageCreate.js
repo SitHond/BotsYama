@@ -4,10 +4,10 @@ const { addExp } = require('../function/leveling'); // Импортируем ф
 module.exports = {
     name: Events.MessageCreate,
     async execute(message, client) {
+        const { User, LocalCommand } = client.sequelize.models;
+
         // Игнорируем сообщения бота, кроме сообщений от SD.C Monitoring
         if (message.author.bot && message.author.username !== 'SD.C Monitoring') return;
-
-        const { User } = client.sequelize.models; 
 
         try {
             // Логика начисления монет за буст сервера
@@ -44,6 +44,25 @@ module.exports = {
                 // Отправляем сообщение о награде
                 await message.channel.send(`🎉 ${member.user.username} получил(а) ${boostReward} монет за буст сервера!`);
                 return; // Завершаем выполнение, если это было сообщение о бусте
+            }
+
+            // Проверяем, является ли сообщение локальной командой
+            if (message.content.startsWith('/')) {
+                const commandName = message.content.slice(1).trim();
+
+                // Ищем локальную команду в базе данных
+                const localCommand = await LocalCommand.findOne({
+                    where: {
+                        guildId: message.guild.id,
+                        commandName: commandName,
+                    }
+                });
+
+                if (localCommand) {
+                    // Отправляем ответ, если команда найдена
+                    await message.channel.send(localCommand.response);
+                    return; // Завершаем выполнение, если это была локальная команда
+                }
             }
 
             // Логика добавления опыта за отправку сообщений

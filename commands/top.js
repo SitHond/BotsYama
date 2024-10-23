@@ -5,6 +5,7 @@ module.exports = {
     data: new SlashCommandBuilder()
         .setName('top')
         .setDescription('Показать топ пользователей по активности в войс-чатах.'),
+    category: 'user',
     async execute(interaction) {
         const { guild, client } = interaction;
         const User = client.sequelize.models.User;

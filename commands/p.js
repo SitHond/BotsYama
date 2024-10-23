@@ -9,6 +9,7 @@ module.exports = {
                 .setDescription('Профиль пользователя')
                 .setRequired(false)
         ),
+    category: 'user',
     async execute(interaction) {
         const User = interaction.client.sequelize.models.User;
         const Pet = interaction.client.sequelize.models.Pet;

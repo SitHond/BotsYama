@@ -32,6 +32,7 @@ const RoleShop = require('./models/RoleShop')(sequelize, DataTypes);
 const Pet = require('./models/Pet')(sequelize, DataTypes);
 const PetShop = require('./models/PetShop')(sequelize, DataTypes);
 const AccessoryShop = require('./models/AccessoryShop')(sequelize, DataTypes);
+const LocalCommand = require('./models/LocalCommand')(sequelize, DataTypes);
 
 // Добавление всех моделей в client.sequelize.models
 client.sequelize = sequelize;
@@ -41,19 +42,20 @@ client.sequelize.models = {
     RoleShop,
     Pet,
     PetShop,
-    AccessoryShop
+    AccessoryShop,
+    LocalCommand
 };
 
 // Синхронизация базы данных
-sequelize.sync()
-    .then(() => {
-        console.log('Database & tables created/updated!');
-    })
-    .catch(error => {
-        console.error('Unable to synchronize the database:', error);
-    });
+// sequelize.sync()
+//     .then(() => {
+//         console.log('Database & tables created/updated!');
+//     })
+//     .catch(error => {
+//         console.error('Unable to synchronize the database:', error);
+//     });
     
-    // Обновдение всех таблиц без перезаписи данных
+//     // Обновдение всех таблиц без перезаписи данных
 //     sequelize.sync({ alter: true })
 //     .then(() => {
 //         console.log('Database & tables created/updated with altered structure!');
@@ -61,6 +63,15 @@ sequelize.sync()
 //     .catch(error => {
 //         console.error('Unable to synchronize the database:', error);
 //     });
+
+
+client.sequelize.sync({ alter: true })
+    .then(() => {
+        console.log('База данных успешно синхронизирована');
+    })
+    .catch(error => {
+        console.error('Ошибка при синхронизации базы данных:', error);
+    });
 
 // Инициализация коллекции команд
 client.commands = new Collection();

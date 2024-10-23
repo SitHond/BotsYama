@@ -4,6 +4,7 @@ module.exports = {
     data: new SlashCommandBuilder()
         .setName('server')
         .setDescription('Информаци о сервере'),
+    category: 'user',
     async execute(interaction) {
         const guild = interaction.guild; // Получаем объект сервера
 

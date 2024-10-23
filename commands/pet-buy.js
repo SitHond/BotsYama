@@ -6,6 +6,7 @@ module.exports = {
     data: new SlashCommandBuilder()
         .setName('pet-buy')
         .setDescription('Купить питомца за фиксированную цену.'),
+    category: 'entertainment',
     async execute(interaction) {
         const { Pet, User } = interaction.client.sequelize.models;
         const userId = interaction.user.id;

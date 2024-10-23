@@ -12,6 +12,7 @@ module.exports = {
             option.setName('bettype')
                 .setDescription('Тип ставки: черное, красное, четное, нечетное, или конкретное число (0-36)')
                 .setRequired(false)), // Необязательный аргумент
+    category: 'entertainment',
     async execute(interaction) {
         const amount = interaction.options.getInteger('amount');
         const betType = interaction.options.getString('bettype');

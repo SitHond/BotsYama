@@ -9,12 +9,14 @@ module.exports = {
             option.setName('user')
                 .setDescription('Пользователь который получит опыт')
                 .setRequired(true) // Опция обязательная
+        
         )
         .addIntegerOption(option =>
             option.setName('amount')
                 .setDescription('Сколько получит')
                 .setRequired(true) // Опция обязательная
         ),
+    category: 'admin',
     async execute(interaction) {
         // Проверка, является ли пользователь администратором
         if (!interaction.member.permissions.has(PermissionsBitField.Flags.Administrator)) {
