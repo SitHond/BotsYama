@@ -1,4 +1,4 @@
-const { SlashCommandBuilder } = require('discord.js');
+const { SlashCommandBuilder, EmbedBuilder } = require('discord.js');
 
 module.exports = {
   data: new SlashCommandBuilder()
@@ -20,7 +20,14 @@ category: 'entertainment',
     // Ищем питомца пользователя
     const pet = await Pet.findOne({ where: { userId: userId, guildId: guildId } });
     if (!pet) {
-      return interaction.reply('У вас еще нет питомцев!');
+        const embed = new EmbedBuilder()
+        .setColor('#00FF00')
+        .setAuthor({ 
+            name: `У вас еще нет питомцев!`,
+            iconURL: 'https://media.discordapp.net/attachments/768105199151218690/838851952627548210/-3.png?ex=66fcef02&is=66fb9d82&hm=9ab482f7494d25371e6aa5c1e1ecc3a7104ad104a6c3fb7df61149e3e77f594b&=&format=webp&quality=lossless&width=591&height=591'
+        })
+
+     await interaction.reply({ embeds: [embed], ephemeral: true });
     }
 
     // Обновляем имя питомца
@@ -28,7 +35,13 @@ category: 'entertainment',
 
     // Сохраняем изменения
     await pet.save();
+    const embed = new EmbedBuilder()
+    .setColor('#00FF00')
+    .setAuthor({ 
+        name: `Имя вашего питомца успешно изменено на "${newName}".`, 
+        iconURL: 'https://media.discordapp.net/attachments/768105199151218690/838851952627548210/-3.png?ex=66fcef02&is=66fb9d82&hm=9ab482f7494d25371e6aa5c1e1ecc3a7104ad104a6c3fb7df61149e3e77f594b&=&format=webp&quality=lossless&width=591&height=591'
+    });
 
-    return interaction.reply(`Имя вашего питомца успешно изменено на "${newName}".`);
+    await interaction.reply({ embeds: [embed] });
   },
 };

@@ -102,31 +102,87 @@ module.exports = {
         if (subcommand === 'setafk') {
             settings.afkChannelId = channel.id; // Устанавливаем AFK канал
             await settings.save();
-            await interaction.reply(`AFK channel set to ${channel}.`);
+            const embed = new EmbedBuilder()
+            .setColor('#00FF00')
+            .setDescription(`${channel}`)
+            .setAuthor({ 
+                name: `AFK channel set to:`, 
+                iconURL: 'https://media.discordapp.net/attachments/768105199151218690/838851952627548210/-3.png?ex=66fcef02&is=66fb9d82&hm=9ab482f7494d25371e6aa5c1e1ecc3a7104ad104a6c3fb7df61149e3e77f594b&=&format=webp&quality=lossless&width=591&height=591'
+            });
+
+            await interaction.reply({ embeds: [embed] });
         } else if (subcommand === 'setlevelup') {
             settings.notificationChannelId = channel.id; // Устанавливаем канал уведомлений
             await settings.save();
-            await interaction.reply(`Level-up notification channel set to ${channel}.`);
+            const embed = new EmbedBuilder()
+            .setColor('#00FF00')
+            .setDescription(`${channel}`)
+            .setAuthor({ 
+                name: `Level-up notification channel set to:`, 
+                iconURL: 'https://media.discordapp.net/attachments/768105199151218690/838851952627548210/-3.png?ex=66fcef02&is=66fb9d82&hm=9ab482f7494d25371e6aa5c1e1ecc3a7104ad104a6c3fb7df61149e3e77f594b&=&format=webp&quality=lossless&width=591&height=591'
+            });
+
+            await interaction.reply({ embeds: [embed] });
         } else if (subcommand === 'setwelcome') {
             settings.welcomeChannelId = channel.id; // Устанавливаем канал для приветствий
             await settings.save();
-            await interaction.reply(`Welcome channel set to ${channel}.`);
+            const embed = new EmbedBuilder()
+            .setColor('#00FF00')
+            .setDescription(`${channel}`)
+            .setAuthor({ 
+                name: `Welcome channel set to:`, 
+                iconURL: 'https://media.discordapp.net/attachments/768105199151218690/838851952627548210/-3.png?ex=66fcef02&is=66fb9d82&hm=9ab482f7494d25371e6aa5c1e1ecc3a7104ad104a6c3fb7df61149e3e77f594b&=&format=webp&quality=lossless&width=591&height=591'
+            });
+
+            await interaction.reply({ embeds: [embed] });
         } else if (subcommand === 'setfarewell') {
             settings.farewellChannelId = channel.id; // Устанавливаем канал для прощаний
             await settings.save();
-            await interaction.reply(`Farewell channel set to ${channel}.`);
+            const embed = new EmbedBuilder()
+            .setColor('#00FF00')
+            .setDescription(`${channel}`)
+            .setAuthor({ 
+                name: `Farewell channel set to:`, 
+                iconURL: 'https://media.discordapp.net/attachments/768105199151218690/838851952627548210/-3.png?ex=66fcef02&is=66fb9d82&hm=9ab482f7494d25371e6aa5c1e1ecc3a7104ad104a6c3fb7df61149e3e77f594b&=&format=webp&quality=lossless&width=591&height=591'
+            });
+
+            await interaction.reply({ embeds: [embed] });
         } else if (subcommand === 'setwelcomemsg') {
             settings.welcomeMessage = message; // Устанавливаем сообщение для приветствий
             await settings.save();
-            await interaction.reply(`Custom welcome message set to: ${message}`);
+            const embed = new EmbedBuilder()
+            .setColor('#00FF00')
+            .setDescription(`${message}`)
+            .setAuthor({ 
+                name: `Custom welcome message set to:`, 
+                iconURL: 'https://media.discordapp.net/attachments/768105199151218690/838851952627548210/-3.png?ex=66fcef02&is=66fb9d82&hm=9ab482f7494d25371e6aa5c1e1ecc3a7104ad104a6c3fb7df61149e3e77f594b&=&format=webp&quality=lossless&width=591&height=591'
+            });
+
+            await interaction.reply({ embeds: [embed] });
         } else if (subcommand === 'setfarewellmsg') {
             settings.farewellMessage = message; // Устанавливаем сообщение для прощаний
             await settings.save();
-            await interaction.reply(`Custom farewell message set to: ${message}`);
+            const embed = new EmbedBuilder()
+            .setColor('#00FF00')
+            .setDescription(`${message}`)
+            .setAuthor({ 
+                name: `Custom farewell message set to:`, 
+                iconURL: 'https://media.discordapp.net/attachments/768105199151218690/838851952627548210/-3.png?ex=66fcef02&is=66fb9d82&hm=9ab482f7494d25371e6aa5c1e1ecc3a7104ad104a6c3fb7df61149e3e77f594b&=&format=webp&quality=lossless&width=591&height=591'
+            });
+
+            await interaction.reply({ embeds: [embed] });
         } else if (subcommand === 'setauditlog') {
             settings.auditLogChannelId = channel.id; // Устанавливаем канал для журнала аудита
             await settings.save();
-            await interaction.reply(`Audit log channel set to ${channel}.`);
+            const embed = new EmbedBuilder()
+            .setColor('#00FF00')
+            .setDescription(`${channel}`)
+            .setAuthor({ 
+                name: `Audit log channel set to:`, 
+                iconURL: 'https://media.discordapp.net/attachments/768105199151218690/838851952627548210/-3.png?ex=66fcef02&is=66fb9d82&hm=9ab482f7494d25371e6aa5c1e1ecc3a7104ad104a6c3fb7df61149e3e77f594b&=&format=webp&quality=lossless&width=591&height=591'
+            });
+
+            await interaction.reply({ embeds: [embed] });
         } else if (subcommand === 'view') {
             // Формируем ответ с текущими настройками
             const afkChannel = settings.afkChannelId ? `<#${settings.afkChannelId}>` : 'Not set';

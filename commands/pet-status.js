@@ -1,5 +1,5 @@
 // commands/pet-status.js
-const { SlashCommandBuilder } = require('@discordjs/builders');
+const { SlashCommandBuilder, EmbedBuilder } = require('@discordjs/builders');
 
 module.exports = {
     data: new SlashCommandBuilder()
@@ -15,7 +15,14 @@ module.exports = {
         const pet = await Pet.findOne({ where: { userId: userId, guildId: guildId } });
 
         if (!pet) {
-            return interaction.reply('У вас нет питомца. Купите питомца командой /pet-buy.');
+            const embed = new EmbedBuilder()
+            .setColor('#00FF00')
+            .setAuthor({ 
+                name: `У вас нет питомца. Купите питомца командой /pet-buy.`,
+                iconURL: 'https://media.discordapp.net/attachments/768105199151218690/838851952627548210/-3.png?ex=66fcef02&is=66fb9d82&hm=9ab482f7494d25371e6aa5c1e1ecc3a7104ad104a6c3fb7df61149e3e77f594b&=&format=webp&quality=lossless&width=591&height=591'
+            })
+
+         await interaction.reply({ embeds: [embed], ephemeral: true });
         }
 
         // Генерация сообщений в зависимости от состояния питомца
@@ -41,6 +48,6 @@ module.exports = {
         **Счастье**: ${pet.happiness}/100 (${happinessStatus})
         `;
 
-        await interaction.reply(petInfo);
+        await interaction.reply(petInfo); // TODO: Надо что-то с этом сделать. Обернуть сообщение в Embed :3
     },
 };

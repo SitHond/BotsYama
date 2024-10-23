@@ -15,7 +15,14 @@ module.exports = {
 
         // Проверка на попытку повысить репутацию самому себе
         if (targetUser.id === interaction.user.id) {
-            return interaction.reply('Вы не можете повысить репутацию самому себе.');
+            const embed = new EmbedBuilder()
+            .setColor('#00FF00')
+            .setAuthor({ 
+                name: `Вы не можете повысить репутацию самому себе.`,
+                iconURL: 'https://media.discordapp.net/attachments/768105199151218690/838851952627548210/-3.png?ex=66fcef02&is=66fb9d82&hm=9ab482f7494d25371e6aa5c1e1ecc3a7104ad104a6c3fb7df61149e3e77f594b&=&format=webp&quality=lossless&width=591&height=591'
+            })
+
+         await interaction.reply({ embeds: [embed], ephemeral: true });
         }
 
         // Получение модели User
@@ -41,7 +48,14 @@ module.exports = {
         }
 
         if (user.lastRepGivenTo === targetUser.id) {
-            return interaction.reply('Вы уже повысили репутацию этому пользователю на этом сервере.');
+            const embed = new EmbedBuilder()
+            .setColor('#00FF00') // Зеленый цвет для успешного сообщения
+            .setAuthor({ 
+                name: `Вы уже повысили репутацию этому пользователю на этом сервере.`,
+                iconURL: 'https://media.discordapp.net/attachments/768105199151218690/838851952627548210/-3.png?ex=66fcef02&is=66fb9d82&hm=9ab482f7494d25371e6aa5c1e1ecc3a7104ad104a6c3fb7df61149e3e77f594b&=&format=webp&quality=lossless&width=591&height=591'
+            })
+
+            await interaction.reply({ embeds: [embed], ephemeral: true });
         }
 
         // Обновляем репутацию целевого пользователя
