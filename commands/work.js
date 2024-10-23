@@ -5,6 +5,7 @@ module.exports = {
 	data: new SlashCommandBuilder()
 		.setName('work')
 		.setDescription('Выполнить работу, чтобы заработать монеты.'),
+	category: 'user',
 	async execute(interaction) {
 		// Получаем модель пользователя
 		const User = interaction.client.sequelize.models.User;

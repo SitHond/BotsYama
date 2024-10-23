@@ -72,6 +72,7 @@ module.exports = {
                 .setName('view')
                 .setDescription('Просмотрите текущие настройки сервера')
         ),
+    category: 'system',
     async execute(interaction) {
         const { options, member, client, guild } = interaction;
 

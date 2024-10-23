@@ -4,6 +4,7 @@ module.exports = {
     data: new SlashCommandBuilder()
         .setName('bank')
         .setDescription('Узнать баланс пользователя.'),
+    category: 'user',
     async execute(interaction) {
         // Получение модели пользователя из базы данных
         const User = interaction.client.sequelize.models.User;

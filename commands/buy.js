@@ -30,6 +30,7 @@ module.exports = {
                         .setDescription('Цена роли.')
                         .setRequired(true))
         ),
+    category: 'user',
     async execute(interaction) {
         const { options, guild, member, client } = interaction;
         const subcommand = options.getSubcommand();

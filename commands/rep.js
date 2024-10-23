@@ -9,6 +9,7 @@ module.exports = {
                 .setDescription('Пользователь, которому вы хотите повысить репутацию.')
                 .setRequired(true)
         ),
+    category: 'user',
     async execute(interaction) {
         const targetUser = interaction.options.getUser('target');
 

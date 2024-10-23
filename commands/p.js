@@ -9,6 +9,7 @@ module.exports = {
                 .setDescription('Профиль пользователя')
                 .setRequired(false)
         ),
+    category: 'user',
     async execute(interaction) {
         const User = interaction.client.sequelize.models.User;
         const Pet = interaction.client.sequelize.models.Pet;
@@ -42,10 +43,21 @@ module.exports = {
             if (pet) {
                 // Выбираем смайлик в зависимости от показателей питомца
                 let petEmoji = '😐'; // Нейтральный смайлик по умолчанию
+
                 if (pet.happiness >= 70 && pet.energy >= 70 && pet.hunger <= 30) {
                     petEmoji = '😃'; // Счастливый
-                } else if (pet.happiness <= 30 || pet.energy <= 30 || pet.hunger >= 70) {
-                    petEmoji = '😡'; // Сердитый
+                } else if (pet.happiness < 30 && pet.energy < 30 && pet.hunger > 70) {
+                    petEmoji = '😭'; // Очень грустный
+                } else if (pet.happiness >= 30 && pet.happiness < 70) {
+                    if (pet.energy < 30 || pet.hunger > 70) {
+                        petEmoji = '😔'; // Устал или голоден, но не очень грустный
+                    } else {
+                        petEmoji = '🙂'; // Нормальное состояние
+                    }
+                } else if (pet.energy <= 30) {
+                    petEmoji = '😴'; // Уставший
+                } else if (pet.hunger >= 70) {
+                    petEmoji = '😡'; // Голодный
                 }
 
                 petInfo = `${pet.name} ${petEmoji}`;
